@@ -14060,7 +14060,7 @@ datareader version: 0.10.0
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;matplotlib.legend.Legend at 0x7fa613b9edc0&gt;</pre>
+<pre>&lt;matplotlib.legend.Legend at 0x7ff874e50d90&gt;</pre>
 </div>
 
 </div>
@@ -14162,7 +14162,7 @@ datareader version: 0.10.0
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>[&lt;matplotlib.lines.Line2D at 0x7fa612fdc220&gt;]</pre>
+<pre>[&lt;matplotlib.lines.Line2D at 0x7ff87428f190&gt;]</pre>
 </div>
 
 </div>
@@ -14190,15 +14190,16 @@ datareader version: 0.10.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Note that the log-return is always smaller than the actually returns. You are underestimating the performance.</p>
-<p>How would an investment of $P_0$ currency units perform using these returns? Recall that the gross return is defined as</p>
-<p>$1+R_t = \dfrac{P_t}{P_{t-1}}$.</p>
-<p>Hence, the price at time $t$ is</p>
-<p>$P_t = P_{t-1}(1+R_t)$.</p>
-<p>Substituting for $P_{t-1}$ and iterating yields that the price at time $t$ can be rewritten to</p>
-<p>$P_t = P_0 \cdot\prod\limits_{i=1}^{t}(1+R_i)$,</p>
+<p>Note that the log-return is smaller than or equal to the simple return.</p>
+<p>How would an investment of $P_0$ currency units perform over time? Recall that the gross return $R_t$ is defined as $R_t = 1 + r_t = \dfrac{P_t}{P_{t-1}}$, where $r_t$ is the simple return.</p>
+<p>The log-return is defined as $r_t^l = ln\left(\dfrac{P_t}{P_{t-1}}\right)$.</p>
+<p>The price at time $t$ is</p>
+<p>$P_t = P_{t-1}(1+r_t)$.</p>
+<p>Substituting for $P_{t-1}$ and iterating yields that the price at time $t$ can be rewritten as</p>
+<p>$P_t = P_0 \cdot\prod\limits_{i=1}^{t}(1+r_i)$,</p>
 <p>where $P_0$ represents the initial investment.</p>
-<p>In the following plot the performance of the investment of $P_0 = 1$ is computed and plotted with gross- and log-returns. <!---  ([Here](why_log_scale.ipynb) is why a log-scale is a good choice.) ) ---></p>
+<p>Important: You cannot substitute the simple return $r_t$ in the equation above with the log-return $r_t^l$. Most of the time, the error is non-negligible.</p>
+<p>The following plot shows the performance of the investment of $P_0 = 1$ in the US market (1927-2020). For the blue line, we correctly use the simple returns in equation $P_t = P_0 \cdot\prod\limits_{i=1}^{t}(1+r_i)$. For the orange line, we incorrectly use log-returns. <!---  ([Here](why_log_scale.ipynb) is why a log-scale is a good choice.) ) ---></p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14239,7 +14240,7 @@ datareader version: 0.10.0
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;matplotlib.legend.Legend at 0x7fa613364f10&gt;</pre>
+<pre>&lt;matplotlib.legend.Legend at 0x7ff113418f70&gt;</pre>
 </div>
 
 </div>
@@ -14273,11 +14274,49 @@ datareader version: 0.10.0
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># final wealth of my dollar </span>
 <span class="p">(</span><span class="n">mp</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cumprod</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>8532.264905960094</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># final wealth of my dollar using the log-approximation</span>
+<span class="p">(</span><span class="n">mp_log</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cumprod</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
      </div>
@@ -14299,7 +14338,7 @@ datareader version: 0.10.0
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>8532.264905960094</pre>
+<pre>1593.4668539331276</pre>
 </div>
 
 </div>
@@ -14308,14 +14347,20 @@ datareader version: 0.10.0
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>It is possible to rearrange $P_t = P_0 \cdot\prod\limits_{i=1}^{t}(1+r_i)$ to $P_t = P_0 \cdot e^{\sum_{i=1}^t r_i^l}$.</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># final wealth of my dollar using the log-approximation</span>
-<span class="p">(</span><span class="n">mp_log</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cumprod</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># correct final wealth using log returns</span>
+<span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">mp_log</span><span class="o">.</span><span class="n">cumsum</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
      </div>
@@ -14337,7 +14382,7 @@ datareader version: 0.10.0
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>1593.4668539331276</pre>
+<pre>8532.264905960092</pre>
 </div>
 
 </div>
@@ -14346,6 +14391,12 @@ datareader version: 0.10.0
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>However, it is probably easiest and from our point of view more common to work with simple returns.</p>
+
+</div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
