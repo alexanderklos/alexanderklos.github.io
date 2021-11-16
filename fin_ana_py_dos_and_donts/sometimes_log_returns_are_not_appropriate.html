@@ -14191,14 +14191,9 @@ datareader version: 0.10.0
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Note that the log-return is smaller than or equal to the simple return.</p>
-<p>How would an investment of $P_0$ currency units perform over time? Recall that the gross return $R_t$ is defined as $R_t = 1 + r_t = \dfrac{P_t}{P_{t-1}}$, where $r_t$ is the simple return.</p>
-<p>The log-return is defined as $r_t^l = ln\left(\dfrac{P_t}{P_{t-1}}\right)$.</p>
-<p>The price at time $t$ is</p>
-<p>$P_t = P_{t-1}(1+r_t)$.</p>
-<p>Substituting for $P_{t-1}$ and iterating yields that the price at time $t$ can be rewritten as</p>
-<p>$P_t = P_0 \cdot\prod\limits_{i=1}^{t}(1+r_i)$,</p>
-<p>where $P_0$ represents the initial investment.</p>
-<p>Important: You cannot substitute the simple return $r_t$ in the equation above with the log-return $r_t^l$. Most of the time, the error is non-negligible.</p>
+<p>How would an investment of $P_0$ currency units perform over time? Recall that the gross return $R_t$ is defined as $R_t = 1 + r_t = \dfrac{P_t}{P_{t-1}}$, where $r_t$ is the simple return. The log-return is defined as $r_t^l = ln\left(\dfrac{P_t}{P_{t-1}}\right)$.</p>
+<p>The value of an asset at time $t$ is $P_t = P_{t-1}(1+r_t)$. Over a longer horizon, we get $P_t = P_0 \cdot\prod\limits_{i=1}^{t}(1+r_i)$, where $P_0$ represents the initial investment.</p>
+<p>Important: You cannot substitute the simple return $r_i$ in the equation above with the log-return $r_i^l$. Most of the time, the error is non-negligible.</p>
 <p>The following plot shows the performance of the investment of $P_0 = 1$ in the US market (1927-2020). For the blue line, we correctly use the simple returns in equation $P_t = P_0 \cdot\prod\limits_{i=1}^{t}(1+r_i)$. For the orange line, we incorrectly use log-returns. <!---  ([Here](why_log_scale.ipynb) is why a log-scale is a good choice.) ) ---></p>
 
 </div>
