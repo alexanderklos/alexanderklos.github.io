@@ -13971,8 +13971,8 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Do-not-use-log-returns-for-long-term-performance-analysis">Do not use log-returns for long-term performance analysis<a class="anchor-link" href="#Do-not-use-log-returns-for-long-term-performance-analysis">&#182;</a></h1><p><em>(Alexander Klos and Matthias Zuckschwert)</em></p>
-<p>The purpose of this notebook is to explain why compounding log returns may be misleading when analyzing an asset's long-term performance.</p>
+<h1 id="Do-not-compound-log-returns-multiplicatively">Do not compound log-returns multiplicatively<a class="anchor-link" href="#Do-not-compound-log-returns-multiplicatively">&#182;</a></h1><p><em>(Alexander Klos and Matthias Zuckschwert)</em></p>
+<p>Some students have compounded logDo not compound log-returns multiplicatively returns multiplicatively in their theses. This notebook illustrates with an numerical example why this is not appropriate.</p>
 
 </div>
 </div>
@@ -14088,7 +14088,7 @@ datareader version: 0.10.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The log is an approximation. This approximation is quite good near zero, but deteriorates for values that are not near zero. Thus, when using log returns, there is an approximation error that is larger for more extreme returns. If you use log returns in an analysis of the long-term performance of an asset, you would compound all the small errors caused by the logarithm. Let's look at an example using the value-weighted market returns from <a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html">Ken French's data library</a>.</p>
+<p>The log is an approximation. This approximation is quite good near zero, but deteriorates for values that are not near zero. Thus, when using log returns, there is an approximation error that is larger for more extreme returns. If you compound log returns multiplicatively in an analysis of an asset's long-term performance, you would compound all the small errors caused by the logarithm. Let's look at an example using the value-weighted monthly market returns from <a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html">Ken French's data library</a>.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14109,7 +14109,7 @@ datareader version: 0.10.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Compute the logarithmic approximation for the market portfolio returns.</p>
+<p>Compute the logarithmic approximation for the market portfolio simple returns.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14129,7 +14129,7 @@ datareader version: 0.10.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Use a scatter plot to compare the actual returns with its logarithmic approximation.</p>
+<p>Use a scatter plot to compare the discrete returns with its logarithmic approximation.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14193,7 +14193,7 @@ datareader version: 0.10.0
 <p>Note that the log-return is smaller than or equal to the simple return.</p>
 <p>How would an investment of $P_0$ currency units perform over time? Recall that the gross return $R_t$ is defined as $R_t = 1 + r_t = \dfrac{P_t}{P_{t-1}}$, where $r_t$ is the simple return. The log-return is defined as $r_t^l = ln\left(\dfrac{P_t}{P_{t-1}}\right)$.</p>
 <p>The value of an asset at time $t$ is $P_t = P_{t-1}(1+r_t)$. Over a longer horizon, we get $P_t = P_0 \cdot\prod\limits_{i=1}^{t}(1+r_i)$, where $P_0$ represents the initial investment.</p>
-<p>Important: You cannot substitute the simple return $r_i$ in the equation above with the log-return $r_i^l$. Most of the time, the error is non-negligible.</p>
+<p>Important: You cannot substitute the simple return $r_i$ in the equation above with the log-return $r_i^l$, that is, you cannot compound log-returns multiplicatively. Most of the time, the error is non-negligible.</p>
 <p>The following plot shows the performance of the investment of $P_0 = 1$ in the US market (1927-2020). For the blue line, we correctly use the simple returns in equation $P_t = P_0 \cdot\prod\limits_{i=1}^{t}(1+r_i)$. For the orange line, we incorrectly use log-returns. <!---  ([Here](why_log_scale.ipynb) is why a log-scale is a good choice.) ) ---></p>
 
 </div>
@@ -14389,19 +14389,13 @@ datareader version: 0.10.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>However, it is probably easiest and from our point of view more common to work with simple returns.</p>
+<p>Conclusion: Do not compound log-returns multiplicatively.</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Conclusion: Do not use log-returns for long-term performance analysis.</p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><em>Optional Exercise:</em> Things become worse if returns are more volatile. Show this (a) by looking at shorter time periods with different historical volatilities (for examples, compare the 1930's with the 2010's), (b) by comparing a more volatile with a less volatile asset over the same time period, or (c) by examining final wealth differences as a function of volatility in simulated data.</p>
+<p><em>Optional Exercise:</em> Things become worse if returns are more volatile. Show this by comparing a more volatile with a less volatile asset over the same time period, or by examining final wealth differences as a function of volatility in simulated data.</p>
 
 </div>
 </div>
