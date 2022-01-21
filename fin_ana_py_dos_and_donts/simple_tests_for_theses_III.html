@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>simple_tests_for_theses_II</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>simple_tests_for_theses_III</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -14515,45 +14515,57 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Simple-Tests-for-Theses-II:-Chi-Square-Test-of-Independence">Simple Tests for Theses II: Chi-Square Test of Independence<a class="anchor-link" href="#Simple-Tests-for-Theses-II:-Chi-Square-Test-of-Independence">&#182;</a></h1>
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>In Battalio, Kagel, and Jiranyakul, 1990, participants had the choice between the risky gamble (payoffs in \$)</p>
-<p>$A: \begin{cases} 20 &amp; \text{ with probability } 0.6\\ 0 &amp; \text{ with probability } 0.4\\ \end{cases}$</p>
-<p>and \$14 for sure</p>
-<p>$B: \begin{cases} 14&amp; \text{ with probability } 1.0\\ \end{cases}$.</p>
-<p>There were two samples. Respondents in the first sample answered a hypothetical question. 16 out of 29 participants chose $B$. The respondents' choices in the second sample had real consequences. Each respondent played the preferred lottery. 24 out of 31 participants chose $B$.</p>
-<p>If we assume that the fraction of people choosing $B$ is the same for real and hypothetical questions, how likely would be the observed frequencies? Battalio, Kagel, and Jiranyakul (1990) reported a test statistic of 3.34 and a p-value of 0.07 for this item.</p>
+<h1 id="Simple-Tests-for-Theses-III:-McNemar">Simple Tests for Theses III: McNemar<a class="anchor-link" href="#Simple-Tests-for-Theses-III:-McNemar">&#182;</a></h1><p><em>(with Matthias Zuckschwert)</em></p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Let's look at the data in the form of a contingency table:</p>
+<p>We continue with our previous example from <a href="https://alexanderklos.github.io/fin_ana_py_dos_and_donts/simple_tests_for_theses_I.html">Simple Test for Theses I</a>.</p>
+<p>In Kahneman and Tversky (1979), survey participants had the hypothetical choice between the risky gamble</p>
+<p>$A: \begin{cases} 2{,}500 &amp; \text{ with probability } 0.33\\ 2{,}400 &amp; \text{ with probability } 0.66\\ 0 &amp; \text{ with probability } 0.01\\ \end{cases}$</p>
+<p>and 2,400 for sure</p>
+<p>$B: \begin{cases} 2{,}400&amp; \text{ with probability } 1.00\\ \end{cases}$.</p>
+<p>Most people chose $B$ in the original sample.</p>
+<p>The second choice was between</p>
+<p>$A': \begin{cases} 2{,}500 &amp; \text{ with probability } 0.33\\ 0 &amp; \text{ with probability } 0.67\\ \end{cases}$</p>
+<p>and</p>
+<p>$B': \begin{cases} 2{,}400 &amp; \text{ with probability } 0.34\\ 0 &amp; \text{ with probability } 0.66\\ \end{cases}$.</p>
+<p>Most people choose $A'$ in the Kahneman and Tversky's original sample.</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Similarly, 126 out of 282 Australian participants (45%) prefer $A$ over $B$ and 199 out of 282 Australian participants (55%) prefer $A'$ over $B'$ in the replication by Ruggeri et al. (2020).</p>
+<p>In the following, answers to the lotteries are labelled in such a way that AA' represents that the participant chooses A over B and A' over B'. Possible answers are: AA', BB', AB', and BA'. The first two answers are in line with expected utility theory (EU), whereas the latter two are not (Allais, 1953).</p>
+<p>282 participants answer to the upper lottery in the following way:</p>
 <table>
 <thead><tr>
 <th></th>
-<th>A</th>
-<th>B</th>
+<th>A'</th>
+<th>B'</th>
+<th>Sum</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Real</td>
-<td>24</td>
-<td>7</td>
+<td>A</td>
+<td>95</td>
+<td>31</td>
+<td>126</td>
 </tr>
 <tr>
-<td>Hypothetical</td>
-<td>16</td>
-<td>13</td>
+<td>B</td>
+<td>104</td>
+<td>52</td>
+<td>156</td>
+</tr>
+<tr>
+<td>Sum</td>
+<td>199</td>
+<td>83</td>
+<td>282</td>
 </tr>
 </tbody>
 </table>
@@ -14565,14 +14577,10 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">scipy</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">statsmodels.stats.contingency_tables</span> <span class="kn">import</span> <span class="n">mcnemar</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">binom</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;numpy version: &#39;</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;scipy version: &#39;</span> <span class="o">+</span> <span class="n">scipy</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;matplotlib version: &#39;</span> <span class="o">+</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14593,8 +14601,6 @@ a.anchor-link {
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>numpy version: 1.19.2
-scipy version: 1.6.2
-matplotlib version: 3.5.0
 </pre>
 </div>
 </div>
@@ -14606,7 +14612,11 @@ matplotlib version: 3.5.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>As a numpy array:</p>
+<p>Most people chose BA'. For many people, this seems to make intuitive sense. They choose the sure 2,400 in the fist decision situation. In the second decision situation, the probability to win a large price does not differ much (0.33 vs. 0.34), while the price in the case of success differs by a meaningful amount (2,500 vs. 2,400). However this choice patterns violates the independence axiom. (Decision analysis students should be able to show that.)</p>
+<p>What pattern would we expect if expected utility theory is a valid description of actual choice behavior? Expected utility maximizer would choose either AA' or BB'. We may see AB' and BA' from time to time, but these patterns are just random mistakes. Especially, AB' and BA' should appear equally often.</p>
+<p>Thus, we formulate our null hypothesis that AB' and BA' are equally likely. The data appears to be inconsistent with the null. We count AB' more often than BA'. The McNemar test proposes the following test statistic (see Moffatt, 2015, for details, and Conlisk, 1989, for an alternative test):</p>
+$$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and n(BA') are the number of people that choose patterns AB' and BA', respectively. The test statistic is exactly zero if n(AB') and n(BA') are equal and becomes larger the larger the absolute difference between n(AB') and n(BA') is.</p>
+<p>The test statistic in our example is:</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14615,8 +14625,7 @@ matplotlib version: 3.5.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">24</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">13</span><span class="p">]])</span>
-<span class="n">obs</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">104</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">31</span> <span class="o">+</span> <span class="mi">104</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14638,8 +14647,7 @@ matplotlib version: 3.5.0
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>array([[24,  7],
-       [16, 13]])</pre>
+<pre>39.474074074074075</pre>
 </div>
 
 </div>
@@ -14651,87 +14659,8 @@ matplotlib version: 3.5.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We can extend the data with the row and column sums (calculating "marginal sums").</p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<table>
-<thead><tr>
-<th></th>
-<th>A</th>
-<th>B</th>
-<th>Sum</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Real</td>
-<td>24</td>
-<td>7</td>
-<td>31</td>
-</tr>
-<tr>
-<td>Hypothetical</td>
-<td>16</td>
-<td>13</td>
-<td>29</td>
-</tr>
-<tr>
-<td>Sum</td>
-<td>40</td>
-<td>20</td>
-<td>60</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>If our null hypothesis of independence is indeed true, our best estimator of the fraction of people choosing $A$ is $40/60=2/3$ (and $1/3$ for $B$). Then, the expected frequencies given the sizes of the two groups are:.</p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<table>
-<thead><tr>
-<th></th>
-<th>A</th>
-<th>B</th>
-<th>Sum</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Real</td>
-<td>20.67</td>
-<td>10.33</td>
-<td>31</td>
-</tr>
-<tr>
-<td>Hypothetical</td>
-<td>19.33</td>
-<td>9.67</td>
-<td>29</td>
-</tr>
-<tr>
-<td>Sum</td>
-<td>40</td>
-<td>20</td>
-<td>60</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>scipy agrees.</p>
+<p>How likely is a pattern as extreme or even more extreme than 39.474 if the null is true?</p>
+<p>Given the simplicity of the test statistic, we can use the <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binom.html">binominal distribution</a> to calculate the probability exactly. First, we determine how likely it is that we observe 31 BA' or less than 31 BA' out of 135 BA' and AB' choices if the null (BA' and AB' are equally likely) is true:</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14740,7 +14669,7 @@ matplotlib version: 3.5.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">stats</span><span class="o">.</span><span class="n">contingency</span><span class="o">.</span><span class="n">expected_freq</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">binom</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">135</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14762,8 +14691,7 @@ matplotlib version: 3.5.0
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>array([[20.66666667, 10.33333333],
-       [19.33333333,  9.66666667]])</pre>
+<pre>1.0278682020214401e-10</pre>
 </div>
 
 </div>
@@ -14775,7 +14703,7 @@ matplotlib version: 3.5.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Similar to the <a href="simple_tests_for_theses_I.html">one-way chi square test</a>, the test statistic is defined as the sum of the differences between observed and expected frequencies, $\sum \frac{(observed - expected)^2}{expected}$, sometimes written as $\chi^2 = \sum_i \frac{(E_i-O_i)^2}{E_i}$. The more the observed frequencies deviate from the expected ones, the higher is the test statistic. In our example:</p>
+<p>Similarly, how likely is it to observe 104 or even more than 104 BA' out of 135 BA' and AB' choices if the null is true (the second way how data could be extreme):</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14784,7 +14712,7 @@ matplotlib version: 3.5.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="mi">24</span><span class="o">-</span><span class="mf">20.67</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mf">20.67</span> <span class="o">+</span> <span class="p">(</span><span class="mi">16</span><span class="o">-</span><span class="mf">19.33</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mf">19.33</span> <span class="o">+</span> <span class="p">(</span><span class="mi">7</span><span class="o">-</span><span class="mf">10.33</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mf">10.33</span> <span class="o">+</span> <span class="p">(</span><span class="mi">13</span><span class="o">-</span><span class="mf">9.67</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mf">9.67</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">1</span> <span class="o">-</span> <span class="n">binom</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">103</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">135</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14806,7 +14734,7 @@ matplotlib version: 3.5.0
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>3.3303336453568035</pre>
+<pre>1.027867790881487e-10</pre>
 </div>
 
 </div>
@@ -14818,16 +14746,16 @@ matplotlib version: 3.5.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>This is the test statistic reported in Battalio, Kagel, and Jiranyakul (1990). (There is small rounding error.) <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chi2_contingency.html">scipy</a>'s documentation suggest to call</p>
+<p>We sum the probabilities up (that is, we perform a two-sided test).</p>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">chi2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">ex</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2_contingency</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">correction</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">1</span> <span class="o">-</span> <span class="n">binom</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">103</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">135</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="n">binom</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">135</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14835,10 +14763,33 @@ matplotlib version: 3.5.0
 </div>
 </div>
 
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>2.0557359929029271e-10</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>to obtain the test statistic</p>
+<p>That is actually the exact p-value of the McNemar test. In Python, we can just define the data</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14847,7 +14798,8 @@ matplotlib version: 3.5.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">chi2</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">95</span><span class="p">,</span> <span class="mi">31</span><span class="p">],</span> <span class="p">[</span><span class="mi">104</span><span class="p">,</span> <span class="mi">52</span><span class="p">]])</span>
+<span class="n">data</span>
 </pre></div>
 
      </div>
@@ -14869,7 +14821,8 @@ matplotlib version: 3.5.0
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>3.337041156840934</pre>
+<pre>array([[ 95,  31],
+       [104,  52]])</pre>
 </div>
 
 </div>
@@ -14881,7 +14834,7 @@ matplotlib version: 3.5.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>the p-value</p>
+<p>and call (see <a href="https://www.statsmodels.org/stable/generated/statsmodels.stats.contingency_tables.mcnemar.html">statsmodels</a> docs for details)</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14890,7 +14843,7 @@ matplotlib version: 3.5.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">mcnemar</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 </pre></div>
 
      </div>
@@ -14906,15 +14859,14 @@ matplotlib version: 3.5.0
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
 
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>0.0677363129657488</pre>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>pvalue      2.0557364040428802e-10
+statistic   31.0
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -14924,7 +14876,7 @@ matplotlib version: 3.5.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>and the expected frequencies under the null hypothesis</p>
+<p>Often, it is more convenient to work with a continuous approximation. (For example, you may run into numerical problems if your distribution becomes to extreme.)</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14933,7 +14885,7 @@ matplotlib version: 3.5.0
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ex</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">mcnemar</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">correction</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 
      </div>
@@ -14949,16 +14901,14 @@ matplotlib version: 3.5.0
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
 
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>array([[20.66666667, 10.33333333],
-       [19.33333333,  9.66666667]])</pre>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>pvalue      3.324439111401887e-10
+statistic   39.474074074074075
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -14968,19 +14918,13 @@ matplotlib version: 3.5.0
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><em>Note:</em> In R, this test is one line of code: "prop.test(x=c(24,16), n=c(31,29), correct=F)". Try it <a href="https://rdrr.io/snippets/">online</a>.</p>
+<p>Here, our test statistic reappears and the p-value is quite close to the p-value of the exact test.</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><strong>Bottom Line</strong>: Using R, you can add a statistical test to your thesis just by running a single line of code.</p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><em>Optional</em>: You may set up a small simulation to estimate the p-value, see <a href="simple_tests_for_theses_I.html">Simple Tests for Theses I: One-Way Chi-Square Test</a>.</p>
+<p><em>Note:</em> In R, this test is one line of code: "mcnemar.test(matrix(c(95, 104, 31, 52), nrow = 2), correct = F)". Try it <a href="https://rdrr.io/snippets/">online</a>.</p>
 
 </div>
 </div>
@@ -14988,7 +14932,10 @@ matplotlib version: 3.5.0
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Literature:</p>
 <ul>
-<li>Battalio, R., Kagel, J. and Jiranyakul, K., 1990, Testing between alternative models of choice under uncertainty: Some initial results, Journal of Risk and Uncertainty 3, 25-50.</li>
+<li>Allais, M., 1953, Le comportement de l’homme rationnel devant le risque: critique des postulats et axiomes de l’école Américaine., Econometrica, 21 No. 4, 503-546.</li>
+<li>Conlisk, J, 1989, Three Variants on the Allais Example, American Economic Review, 79, 392-407.</li>
+<li>Moffatt, P. G., 2015, Experimetrics: Econometrics for Experimental Economics, 61-63.</li>
+<li>Ruggeri, K.  et al., 2020, Replicating patterns of prospect theory for decision under risk, Nature Human Behavior 4, 622-633.</li>
 </ul>
 
 </div>
