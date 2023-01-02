@@ -377,7 +377,7 @@ for Testing Standard Error Estimation Programs</a>).</p>
 <pre class="r"><code>library(foreign)
 df_petersen &lt;- read.dta(&quot;http://www.kellogg.northwestern.edu/faculty/petersen/htm/papers/se/test_data.dta&quot;)</code></pre>
 <pre class="r"><code>library(plm)
-summary(pmg(y ~ x, data = df_petersen, index=c(&quot;year&quot;,&quot;firmid&quot;))) </code></pre>
+summary(pmg(y ~ x, data = df_petersen, index = c(&quot;year&quot;, &quot;firmid&quot;))) </code></pre>
 <pre><code>## Mean Groups model
 ## 
 ## Call:
@@ -455,15 +455,16 @@ errors.</p>
                 se_reg_coef        = sd(reg_coef) / sqrt(nrow(first_stage)),
                 mean_intercept     = mean(intercept), 
                 se_reg_intercept   = sd(intercept) / sqrt(nrow(first_stage)),
-                mean_r_squared     = mean(r_squared))]</code></pre>
+                mean_r_squared     = mean(r_squared))
+            ]</code></pre>
 <pre><code>##    mean_reg_coef se_reg_coef mean_intercept se_reg_intercept mean_r_squared
 ## 1:      1.035586  0.03334159     0.03127797       0.02335649      0.2086092</code></pre>
 <p>Some simple benchmarking:</p>
 <pre class="r"><code>start_time &lt;- Sys.time()
-summary(pmg(y ~ x, data = df_petersen, index=c(&quot;year&quot;,&quot;firmid&quot;))) 
+summary(pmg(y ~ x, data = df_petersen, index = c(&quot;year&quot;, &quot;firmid&quot;))) 
 end_time &lt;- Sys.time()</code></pre>
 <pre class="r"><code>end_time - start_time</code></pre>
-<pre><code>## Time difference of 0.0330894 secs</code></pre>
+<pre><code>## Time difference of 0.03264904 secs</code></pre>
 <p>Now with <code>data.table</code> and a single function call:</p>
 <pre class="r"><code>start_time &lt;- Sys.time()
 first_stage &lt;- dt_petersen[, get_info_from_first_stage_regression(y, x), by = year]
@@ -471,39 +472,37 @@ first_stage[, .(mean_reg_coef      = mean(reg_coef),
                 se_reg_coef        = sd(reg_coef) / sqrt(nrow(first_stage)),
                 mean_intercept     = mean(intercept), 
                 se_reg_intercept   = sd(intercept) / sqrt(nrow(first_stage)),
-                mean_r_squared     = mean(r_squared))]
+                mean_r_squared     = mean(r_squared))
+            ]
 end_time &lt;- Sys.time()</code></pre>
 <pre class="r"><code>end_time - start_time</code></pre>
-<pre><code>## Time difference of 0.0136342 secs</code></pre>
-<p>If we increase the amount of data by a factor of 1000:</p>
-<pre class="r"><code>dt_petersen_new &lt;- dt_petersen[, .(firmid, year, x, y)]
-for (i in 1:999) {
-  dt_petersen_new &lt;- rbind(dt_petersen_new, 
-                           dt_petersen[, .(firmid = firmid + 500 * i, 
-                                           year, 
-                                           x = x + runif(n=500, min = -0.1, max = 0.1), 
-                                           y = y + runif(n=500, min = -0.1, max = 0.1)
-                                           )])
-}
+<pre><code>## Time difference of 0.01398134 secs</code></pre>
+<p>If we increase the amount of data from 5000 to 5m observations:</p>
+<pre class="r"><code>dt_petersen_new &lt;-
+  dt_petersen[, .(firmid = 1:5000000, 
+                  year, 
+                  x = x + runif(n = 5000000, min = -0.1, max = 0.1), 
+                  y = y + runif(n = 5000000, min = -0.1, max = 0.1))
+              ]
 dt_petersen_new</code></pre>
-<pre><code>##          firmid year           x          y
-##       1:  1e+00    1 -1.11397266  2.2515347
-##       2:  1e+00    2 -0.08085376  1.2423458
-##       3:  1e+00    3 -0.23760724 -1.4263762
-##       4:  1e+00    4 -0.15248568 -1.1093940
-##       5:  1e+00    5 -0.00142616  0.9146864
-##      ---                                   
-## 4999996:  5e+05    6 -0.11787147  3.7844398
-## 4999997:  5e+05    7  0.26284361  0.5078931
-## 4999998:  5e+05    8 -0.06431572 -3.8488537
-## 4999999:  5e+05    9 -0.12877216  0.8864528
-## 5000000:  5e+05   10  0.05615091 -0.5745351</code></pre>
+<pre><code>##           firmid year            x          y
+##       1:       1    1 -1.204092260  2.3316751
+##       2:       2    2 -0.008280438  1.2738377
+##       3:       3    3 -0.230649947 -1.4593722
+##       4:       4    4 -0.058463572 -1.1021214
+##       5:       5    5 -0.031079541  0.8548510
+##      ---                                     
+## 4999996: 4999996    6 -0.079206870  3.7282670
+## 4999997: 4999997    7  0.142287997  0.6235118
+## 4999998: 4999998    8 -0.165472902 -3.7765529
+## 4999999: 4999999    9 -0.027527710  0.9685317
+## 5000000: 5000000   10  0.019617734 -0.6012836</code></pre>
 <p><code>pmg</code>:</p>
 <pre class="r"><code>start_time &lt;- Sys.time()
-summary(pmg(y ~ x, data = dt_petersen_new, index=c(&quot;year&quot;,&quot;firmid&quot;))) 
+summary(pmg(y ~ x, data = dt_petersen_new, index = c(&quot;year&quot;, &quot;firmid&quot;))) 
 end_time &lt;- Sys.time()</code></pre>
 <pre class="r"><code>end_time - start_time</code></pre>
-<pre><code>## Time difference of 49.03942 secs</code></pre>
+<pre><code>## Time difference of 1.566671 mins</code></pre>
 <p><code>data.table</code>:</p>
 <pre class="r"><code>start_time &lt;- Sys.time()
 first_stage &lt;- dt_petersen_new[, get_info_from_first_stage_regression(y, x), by = year]
@@ -515,7 +514,7 @@ first_stage[, .(mean_reg_coef      = mean(reg_coef),
                 )]
 end_time &lt;- Sys.time()</code></pre>
 <pre class="r"><code>end_time - start_time</code></pre>
-<pre><code>## Time difference of 3.735631 secs</code></pre>
+<pre><code>## Time difference of 2.901935 secs</code></pre>
 <p>Literature:</p>
 <ul>
 <li><p>Fama, Eugene F., and MacBeth, James D. (1973). Risk, Return, and
