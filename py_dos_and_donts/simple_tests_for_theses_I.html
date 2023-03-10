@@ -14454,25 +14454,85 @@ all of MD as it is not optimized for dense, information rich UIs.
 </style>
 
 <style type="text/css">
-a.anchor-link {
-   display: none;
+/* Force rendering true colors when outputing to pdf */
+* {
+  -webkit-print-color-adjust: exact;
 }
+
+/* Misc */
+a.anchor-link {
+  display: none;
+}
+
 .highlight  {
-    margin: 0.4em;
+  margin: 0.4em;
 }
 
 /* Input area styling */
 .jp-InputArea {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .jp-InputArea-editor {
-    overflow: hidden;
+  overflow: hidden;
+}
+
+.CodeMirror pre {
+  margin: 0;
+  padding: 0;
+}
+
+/* Using table instead of flexbox so that we can use break-inside property */
+/* CSS rules under this comment should not be required anymore after we move to the JupyterLab 4.0 CSS */
+
+
+.jp-CodeCell.jp-mod-outputsScrolled .jp-OutputArea-prompt {
+  min-width: calc(
+    var(--jp-cell-prompt-width) - var(--jp-private-cell-scrolling-output-offset)
+  );
+}
+
+.jp-OutputArea-child {
+  display: table;
+  width: 100%;
+}
+
+.jp-OutputPrompt {
+  display: table-cell;
+  vertical-align: top;
+  min-width: var(--jp-cell-prompt-width);
+}
+
+body[data-format='mobile'] .jp-OutputPrompt {
+  display: table-row;
+}
+
+.jp-OutputArea-output {
+  display: table-cell;
+  width: 100%;
+}
+
+body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
+  display: table-row;
+}
+
+.jp-OutputArea-output.jp-OutputArea-executeResult {
+  width: 100%;
+}
+
+/* Hiding the collapser by default */
+.jp-Collapser {
+  display: none;
 }
 
 @media print {
-  body {
-    margin: 0;
+  .jp-Cell-inputWrapper,
+  .jp-Cell-outputWrapper {
+    display: block;
+  }
+
+  .jp-OutputArea-child {
+    break-inside: avoid-page;
   }
 }
 </style>
@@ -14513,29 +14573,49 @@ a.anchor-link {
     <!-- End of mathjax configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="Simple-tests-for-theses-I:-One-way-chi-square-test">Simple tests for theses I: One-way chi-square test<a class="anchor-link" href="#Simple-tests-for-theses-I:-One-way-chi-square-test">&#182;</a></h1>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>In Kahneman and Tversky (1979), survey participants had the hypothetical choice between the risky gamble</p>
 <p>$A: \begin{cases} 2{,}500 &amp; \text{ with probability } 0.33\\ 2{,}400 &amp; \text{ with probability } 0.66\\ 0 &amp; \text{ with probability } 0.01\\ \end{cases}$</p>
 <p>and 2,400 for sure</p>
 <p>$B: \begin{cases} 2{,}400&amp; \text{ with probability } 1.00\\ \end{cases}$.</p>
 <p>Most people chose $B$ in the original sample.</p>
-<p>In the replication by Ruggeri et al. (2020), 126 out of 282 Australian participants (44.7%) chose $A$. If we assume that half of the Australians prefer $A$, what is the probability that we observe an empirical distribution at least as extreme as the sample that we have observed (in other words, we are looking for the p-value)?</p>
+<p>In the replication by Ruggeri et al. (2020), 126 out of 282 Australian participants (44.7%) chose $A$. Suppose we assume that half of Australians prefer $A$. What is the probability that we observe an empirical distribution at least as extreme as the sample we have observed (in other words, we are looking for the p-value)?</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>A common choice to approach this question is a one-way chi-square test (sometimes called chi-square test goodness of fit). It tests the null hypothesis that the categorical data has pre-defined frequencies. The <a href="https://osf.io/esxc4/">data and code</a> supplementing Ruggeri et al. (2020) uses this test by calling scipy's <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html">chisquare</a> function for each item in each country (not reported in the paper).</p>
+<p>A common approach to this question is a one-way chi-square test (sometimes called chi-square test goodness of fit). It tests the null hypothesis that the categorical data has pre-defined frequencies. The <a href="https://osf.io/esxc4/">data and code</a> supplementing Ruggeri et al. (2020) use this test by calling scipy's <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html">chisquare</a> function for each item in each country (not reported in the paper).</p>
 
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14559,6 +14639,8 @@ a.anchor-link {
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14583,6 +14665,8 @@ matplotlib version: 3.5.0
 
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14596,6 +14680,8 @@ matplotlib version: 3.5.0
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14619,25 +14705,47 @@ matplotlib version: 3.5.0
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Calling the function chisquare with the empirically observed choice frequencies yields a chi-squared test statistic of 3.19 and a p-value of 0.074.</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><strong>Note:</strong> In R, you can just call "chisq.test(x=c(126, 156), correct=F)". <a href="https://rdrr.io/snippets/">rdrr.io</a> allows you do that online, without the need to install R.</p>
+<p><strong>Note:</strong> In R, you can just call "chisq.test(x=c(126, 156), correct=F)". <a href="https://rdrr.io/snippets/">rdrr.io</a> allows you to do that online without the need to install R.</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Let us try to develop an intuition. The empirically observed and the expected frequencies under the null hypothesis looks like this:</p>
+<p>Let us try to develop an intuition. The empirically observed and the expected frequencies under the null hypothesis look like this:</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <table>
 <thead><tr>
@@ -14662,13 +14770,23 @@ matplotlib version: 3.5.0
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The test statistic is the sum of the squared deviations between the observed and expected frequencies, divided by the expected frequency, $\sum \frac{(observed - expected)^2}{expected}$, sometimes written as $\chi^2 = \sum_i \frac{(O_i-E_i)^2}{E_i}$. The test statistic is larger the larger the differences between observed and expected frequencies. In our example:</p>
+<p>The test statistic is the sum of the squared deviations between the observed and expected frequencies, divided by the expected frequency, $\sum \frac{(observed - expected)^2}{expected}$, sometimes written as $\chi^2 = \sum_i \frac{(O_i-E_i)^2}{E_i}$. The larger the test statistic, the larger the differences between observed and expected frequencies. In our example:</p>
 
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14682,6 +14800,8 @@ matplotlib version: 3.5.0
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14705,19 +14825,33 @@ matplotlib version: 3.5.0
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>How likely is a value greater or equal than 3.19 if the null is true? scipy's chisquare function already provides an answer (0.074), but we run a short simulation to obtain an estimate.</p>
+<p>How likely is a value greater or equal to 3.19 if the null is true? scipy's chisquare function already provides an answer (0.074), but we run a short simulation to obtain an estimate.</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The function get_simulated_samples repeatedly generates samples of the same size. It is not necessary that you understand every single line of the code. However, you should get the idea of the simulation and develop an intuition of the p-value.</p>
+<p>The function get_simulated_samples repeatedly generates samples of the same size. You don't need to understand every single line of the code. However, you should get the idea of the simulation and develop an intuition of the p-value.</p>
 
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14743,13 +14877,21 @@ matplotlib version: 3.5.0
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>With the parameters sim_runs and sample_size, you determine how large the sample size should be and how many of these samples you would like to draw. For each simulation run, the function assumes that A and B choices are equally likely, randomly generates a series of choices, and computes the test statistic.</p>
+<p>With the parameters sim_runs and sample_size, you determine how large the sample size should be and how many of these samples you would like to draw. The function assumes that A and B choices are equally likely for each simulation run, randomly generates a series of choices, and computes the test statistic.</p>
 
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14763,13 +14905,21 @@ matplotlib version: 3.5.0
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The function returns a list of these statistics. Therefore, the length of the list is equal to the number of the simulations runs.</p>
+<p>The function returns a list of these statistics. Therefore, the length of the list is equal to the number of simulation runs.</p>
 
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14783,6 +14933,8 @@ matplotlib version: 3.5.0
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14807,6 +14959,8 @@ matplotlib version: 3.5.0
 
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14820,6 +14974,8 @@ matplotlib version: 3.5.0
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14854,6 +15010,9 @@ matplotlib version: 3.5.0
 <div class="jp-RenderedImage jp-OutputArea-output ">
 <img src="data:image/png;base64,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
 "
+class="
+jp-needs-light-background
+"
 >
 </div>
 
@@ -14864,13 +15023,21 @@ matplotlib version: 3.5.0
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>How often do we get a test statistics larger than 3.19?</p>
+<p>How often do we get test statistics larger than 3.19?</p>
 
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14884,6 +15051,8 @@ matplotlib version: 3.5.0
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14907,13 +15076,21 @@ matplotlib version: 3.5.0
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>... as a fraction:</p>
 
 </div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14927,6 +15104,8 @@ matplotlib version: 3.5.0
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14950,25 +15129,47 @@ matplotlib version: 3.5.0
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>That is our simulation-based estimate of the p-value. It is pretty close to the p-value that we obtain from scipy. If choice proportions are identical and the sample size is 282, we should see in roughly 7% of all cases a test statistic that is larger than 3.19.</p>
+<p>That is our simulation-based estimate of the p-value. It is close to the p-value that we obtain from scipy. If choice proportions are identical and the sample size is 282, we should see in roughly 7% of all cases a test statistic that is larger than 3.19.</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p><strong>Bottom Line</strong>: Using R, you can add a statistical test to your thesis just by running a single line of code.</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p><em>Final Comment</em>: The test works fine with more than 2 categories and alternative null hypotheses. Exact tests exist if the number of observations becomes small.</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Literature:</p>
 <ul>
@@ -14976,6 +15177,8 @@ matplotlib version: 3.5.0
 <li>Ruggeri, K.  et al., 2020, Replicating patterns of prospect theory for decision under risk, Nature Human Behavior 4, 622-633.</li>
 </ul>
 
+</div>
+</div>
 </div>
 </div>
 </body>

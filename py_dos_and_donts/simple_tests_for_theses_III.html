@@ -14454,25 +14454,85 @@ all of MD as it is not optimized for dense, information rich UIs.
 </style>
 
 <style type="text/css">
-a.anchor-link {
-   display: none;
+/* Force rendering true colors when outputing to pdf */
+* {
+  -webkit-print-color-adjust: exact;
 }
+
+/* Misc */
+a.anchor-link {
+  display: none;
+}
+
 .highlight  {
-    margin: 0.4em;
+  margin: 0.4em;
 }
 
 /* Input area styling */
 .jp-InputArea {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .jp-InputArea-editor {
-    overflow: hidden;
+  overflow: hidden;
+}
+
+.CodeMirror pre {
+  margin: 0;
+  padding: 0;
+}
+
+/* Using table instead of flexbox so that we can use break-inside property */
+/* CSS rules under this comment should not be required anymore after we move to the JupyterLab 4.0 CSS */
+
+
+.jp-CodeCell.jp-mod-outputsScrolled .jp-OutputArea-prompt {
+  min-width: calc(
+    var(--jp-cell-prompt-width) - var(--jp-private-cell-scrolling-output-offset)
+  );
+}
+
+.jp-OutputArea-child {
+  display: table;
+  width: 100%;
+}
+
+.jp-OutputPrompt {
+  display: table-cell;
+  vertical-align: top;
+  min-width: var(--jp-cell-prompt-width);
+}
+
+body[data-format='mobile'] .jp-OutputPrompt {
+  display: table-row;
+}
+
+.jp-OutputArea-output {
+  display: table-cell;
+  width: 100%;
+}
+
+body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
+  display: table-row;
+}
+
+.jp-OutputArea-output.jp-OutputArea-executeResult {
+  width: 100%;
+}
+
+/* Hiding the collapser by default */
+.jp-Collapser {
+  display: none;
 }
 
 @media print {
-  body {
-    margin: 0;
+  .jp-Cell-inputWrapper,
+  .jp-Cell-outputWrapper {
+    display: block;
+  }
+
+  .jp-OutputArea-child {
+    break-inside: avoid-page;
   }
 }
 </style>
@@ -14513,13 +14573,23 @@ a.anchor-link {
     <!-- End of mathjax configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="Simple-tests-for-theses-III:-McNemar">Simple tests for theses III: McNemar<a class="anchor-link" href="#Simple-tests-for-theses-III:-McNemar">&#182;</a></h1><p><em>(with Matthias Zuckschwert)</em></p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>We continue with our previous example from <a href="https://alexanderklos.github.io/fin_ana_py_dos_and_donts/simple_tests_for_theses_I.html">Simple Test for Theses I</a>.</p>
 <p>In Kahneman and Tversky (1979), survey participants had the hypothetical choice between the risky gamble</p>
@@ -14531,15 +14601,21 @@ a.anchor-link {
 <p>$A': \begin{cases} 2{,}500 &amp; \text{ with probability } 0.33\\ 0 &amp; \text{ with probability } 0.67\\ \end{cases}$</p>
 <p>and</p>
 <p>$B': \begin{cases} 2{,}400 &amp; \text{ with probability } 0.34\\ 0 &amp; \text{ with probability } 0.66\\ \end{cases}$.</p>
-<p>Most people choose $A'$ in the Kahneman and Tversky's original sample.</p>
+<p>Most people choose $A'$ in Kahneman and Tversky's original sample.</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Similarly, 126 out of 282 Australian participants (45%) prefer $A$ over $B$ and 199 out of 282 Australian participants (55%) prefer $A'$ over $B'$ in the replication by Ruggeri et al. (2020).</p>
-<p>In the following, answers to the lotteries are labelled in such a way that AA' represents that the participant chooses A over B and A' over B'. Possible answers are: AA', BB', AB', and BA'. The first two answers are in line with expected utility theory (EU), whereas the latter two are not (Allais, 1953).</p>
-<p>282 participants answer to the upper lottery in the following way:</p>
+<p>In the following, answers to the lotteries are labeled so that AA' represents that the participant chooses A over B and A' over B'. Possible answers are AA', BB', AB,' and BA'. The first two answers are in line with expected utility theory (EU), whereas the latter two are not (Allais, 1953).</p>
+<p>282 participants answer the upper lottery in the following way:</p>
 <table>
 <thead><tr>
 <th></th>
@@ -14571,8 +14647,12 @@ a.anchor-link {
 </table>
 
 </div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14589,6 +14669,8 @@ a.anchor-link {
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14610,17 +14692,25 @@ a.anchor-link {
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Most people chose BA'. For many people, this seems to make intuitive sense. They choose the sure 2,400 in the fist decision situation. In the second decision situation, the probability to win a large price does not differ much (0.33 vs. 0.34), while the price in the case of success differs by a meaningful amount (2,500 vs. 2,400). However this choice patterns violates the independence axiom. (Decision analysis students should be able to show that.)</p>
-<p>What pattern would we expect if expected utility theory is a valid description of actual choice behavior? Expected utility maximizer would choose either AA' or BB'. We may see AB' and BA' from time to time, but these patterns are just random mistakes. Especially, AB' and BA' should appear equally often.</p>
+<p>Most people chose BA'. For many people, this makes intuitive sense. They choose the sure 2,400 in the first decision situation. In the second decision situation, the probability of winning a large price does not differ much (0.33 vs. 0.34), while the price in the case of success varies by a meaningful amount (2,500 vs. 2,400). However, this choice pattern violates the independence axiom. (Decision analysis students should be able to show that.)</p>
+<p>What pattern would we expect if expected utility theory validly describes actual choice behavior? Expected utility maximizer would choose either AA' or BB'. We may occasionally see AB' and BA', but these patterns are just random mistakes. Especially, AB' and BA' should appear equally often.</p>
 <p>Thus, we formulate our null hypothesis that AB' and BA' are equally likely. The data appears to be inconsistent with the null. We count AB' more often than BA'. The McNemar test proposes the following test statistic (see Moffatt, 2015, for details, and Conlisk, 1989, for an alternative test):</p>
 $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and n(BA') are the number of people that choose patterns AB' and BA', respectively. The test statistic is exactly zero if n(AB') and n(BA') are equal and becomes larger the larger the absolute difference between n(AB') and n(BA') is.</p>
 <p>The test statistic in our example is:</p>
 
 </div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14634,6 +14724,8 @@ $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and 
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14657,14 +14749,22 @@ $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and 
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>How likely is a pattern as extreme or even more extreme than 39.474 if the null is true?</p>
 <p>Given the simplicity of the test statistic, we can use the <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binom.html">binominal distribution</a> to calculate the probability exactly. First, we determine how likely it is that we observe 31 BA' or less than 31 BA' out of 135 BA' and AB' choices if the null (BA' and AB' are equally likely) is true:</p>
 
 </div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14678,6 +14778,8 @@ $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and 
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14701,13 +14803,21 @@ $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and 
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Similarly, how likely is it to observe 104 or even more than 104 BA' out of 135 BA' and AB' choices if the null is true (the second way how data could be extreme):</p>
 
 </div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14721,6 +14831,8 @@ $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and 
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14744,13 +14856,21 @@ $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and 
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>We sum the probabilities up (that is, we perform a two-sided test).</p>
 
 </div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14764,6 +14884,8 @@ $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and 
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14787,13 +14909,21 @@ $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and 
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>That is actually the exact p-value of the McNemar test. In Python, we can just define the data</p>
+<p>That is the exact p-value of the McNemar test. In Python, we can define the data</p>
 
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14808,6 +14938,8 @@ $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and 
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14832,13 +14964,21 @@ $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and 
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>and call (see <a href="https://www.statsmodels.org/stable/generated/statsmodels.stats.contingency_tables.mcnemar.html">statsmodels</a> docs for details)</p>
 
 </div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14852,6 +14992,8 @@ $$\frac{\left[ n(AB') - n(BA') \right]^2}{n(AB')+n(BA')} ,$$<p>where n(AB') and 
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14874,13 +15016,21 @@ statistic   31.0
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Often, it is more convenient to work with a continuous approximation. (For example, you may run into numerical problems if your distribution is too extreme.)</p>
+<p>Often, it is more convenient to work with a continuous approximation. (For example, you may encounter numerical problems if your distribution is too extreme.)</p>
 
+</div>
+</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
@@ -14894,6 +15044,8 @@ statistic   31.0
 </div>
 
 <div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
@@ -14916,19 +15068,35 @@ statistic   39.474074074074075
 </div>
 
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Here, our test statistic reappears and the p-value is quite close to the p-value of the exact test.</p>
+<p>Here, our test statistic reappears, and the p-value is quite close to the p-value of the exact test.</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p><em>Note:</em> In R, this test is one line of code: "mcnemar.test(matrix(c(95, 104, 31, 52), nrow = 2), correct = F)". Try it <a href="https://rdrr.io/snippets/">online</a>.</p>
 
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Literature:</p>
 <ul>
@@ -14938,6 +15106,8 @@ statistic   39.474074074074075
 <li>Ruggeri, K.  et al., 2020, Replicating patterns of prospect theory for decision under risk, Nature Human Behavior 4, 622-633.</li>
 </ul>
 
+</div>
+</div>
 </div>
 </div>
 </body>
