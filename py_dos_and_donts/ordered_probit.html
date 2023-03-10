@@ -727,7 +727,7 @@ ll(params)</code></pre>
 <p>We get a smaller log-likelihood when adding small random numbers to
 the optimal params.</p>
 <pre class="r"><code>ll(params + runif(n = 6, min = -0.01, max = 0.01))</code></pre>
-<pre><code>## [1] -801.3794</code></pre>
+<pre><code>## [1] -801.1216</code></pre>
 <p><code>polr</code> found the best fitting parameters for us.</p>
 <p>The <code>MASS</code> package is beneficial for several reasons. The
 code above is only valid for our model and our data. If we change any of
@@ -821,7 +821,7 @@ latent_value_without_kids</code></pre>
 <pre><code>##       4|5 
 ## 0.4935618</code></pre>
 <p>People without kids rate their marriages higher, and the calculations
-above tell as how large this effect is in terms of predicted
+above tell us how large this effect is in terms of predicted
 probabilities.</p>
 <p>Assessed graphically, we have a person with a mean age and no kids in
 blue and a person with a mean age with kids in red. The cutoff values
