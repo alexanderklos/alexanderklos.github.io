@@ -372,7 +372,7 @@ example.</p>
 <div id="basics" class="section level3">
 <h3>Basics</h3>
 <p>Look for an intuitive explanation that gives you a good start, maybe
-Simon Jackson’s <a href="https://web.stanford.edu/class/polisci203/ordered.pdf">teaching
+Simon Jackman’s <a href="https://web.stanford.edu/class/polisci203/ordered.pdf">teaching
 notes</a>.</p>
 <p>I start with simplified code from the <a href="https://lost-stats.github.io/Model_Estimation/GLS/ordered_probit_logit.html">Library
 of Statistical Techniques (LOST)</a>.</p>
@@ -727,7 +727,7 @@ ll(params)</code></pre>
 <p>We get a smaller log-likelihood when adding small random numbers to
 the optimal params.</p>
 <pre class="r"><code>ll(params + runif(n = 6, min = -0.01, max = 0.01))</code></pre>
-<pre><code>## [1] -801.1216</code></pre>
+<pre><code>## [1] -804.2977</code></pre>
 <p><code>polr</code> found the best fitting parameters for us.</p>
 <p>The <code>MASS</code> package is beneficial for several reasons. The
 code above is only valid for our model and our data. If we change any of
